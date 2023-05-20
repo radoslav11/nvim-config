@@ -55,6 +55,10 @@ colorscheme gruvbox
 nmap <F1> <nop>
 imap <F1> <nop>
 
+" I sometimes use CMD-C to copy on MacOS.
+" For this to work, I map CMD-C to M-] in iTerm2.
+vmap <M-]> y
+
 " Find files using Telescope command-line sugar.
 let mapleader = "\<Space>"
 nnoremap <leader>ff :Telescope find_files<cr>
