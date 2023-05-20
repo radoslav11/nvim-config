@@ -1,7 +1,8 @@
 # nvim-config
 Neovim config requiring only Plug (and maybe copilot). You should clone this repo
 into `~/.config/nvim`, or the configuration directory for your nvim. Some of the plugins
-do have additional dependencies, like fzf, astyle and black.
+do have additional dependencies, like `fzf`, `astyle` and `black`. Also, if you want a JetBarains-like
+file search, you should install `ripgrep`.
 
 # Installation
 For those unfamiliar with Plug, you simply need to `:PlugInstall`. If you don't want some
@@ -21,8 +22,9 @@ to go into normal mode.
 - `<TAB>` in normal mode formats the file (C/C++/Java with astyle, Python with black).
 - For browsing files, toggle nvim-tree using `` C-` ``.
 - There are a few search file funcionalities that are available through Telescope. The 
-keybindings use the `<leader>` which I've set up as `<SPACE>`. For example `<leader>ff` searches
-for files based on name. Check `init.vim` for more details.
+keybindings use the `<leader>` which I've set up as `<SPACE>`. For example, `<leader>ff` searches
+for files based on name. For the JetBrains-like search, I use `<leader>fg` which runs `ripgrep`. 
+Check `init.vim` for more details.
 
 # (Optional) Copilot
 Follow the installation on https://github.com/github/copilot.vim, and add it ot `pack/`.

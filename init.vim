@@ -46,6 +46,8 @@ set whichwrap+=<,>,[,]
 let g:AutoPairsFlyMode=0
 
 let c_no_curly_error=1
+" Better visual mode selection
+let g:gruvbox_invert_selection=0
 let g:gruvbox_contrast_dark='hard'
 colorscheme gruvbox
 
