@@ -159,7 +159,6 @@ let g:ycm_confirm_extra_conf = 0
 let g:ycm_global_ycm_extra_conf = '~/.config/nvim/ycm_extra_conf.py'
 
 source ~/.config/nvim/cyrilic.vim
-autocmd BufNewFile  *.cpp  0r ~/.vim/skeleton.cpp
 
 " vim-airline
 let g:airline_theme='gruvbox'
