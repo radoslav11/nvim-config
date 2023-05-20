@@ -29,3 +29,16 @@ Check `init.vim` for more details.
 # (Optional) Copilot
 Follow the installation on https://github.com/github/copilot.vim, and add it ot `pack/`.
 You will be prompted to login from a browser, or put a 6 digit code.
+
+# Dependencies
+After adding image and pdf support, I realised that it would be good to keep track of the 
+dependencies and useful packages. I'll probably create some installation script at some point.
+The list is as follows:
+- `poppler` for image / pdf tools.
+- `ripgrep` for search.
+- `fzf` for search.
+- `astyle` for formatting C/C++/C#/Java.
+- `black` for formatting python.
+- `tlmgr` for installing LaTex packages.
+- `chafa` for viewing image approximations in a terminal.
+- `viu` like `chafa`, but it sends an actual image. Works with iTerm2.
