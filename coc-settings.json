@@ -1,0 +1,12 @@
+{
+	"suggest.enablePreselect": false,
+	"coc.preferences.formatOnType":true,
+	"suggest.noselect": true,
+	"diagnostic.errorSign": "✘",
+	"diagnostic.infoSign": "ℹ",
+	"diagnostic.hintSign": "➤",
+	"diagnostic.enableHighlightLineNumber": true,
+	"signature.enable": true,
+	"clangd.fallbackFlags": [ "-std=c++17" ],
+	"python.pythonPath": "~/.config/nvim/coc-pyright-run-py"
+}

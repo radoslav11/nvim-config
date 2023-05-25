@@ -3,7 +3,8 @@ set termguicolors
 call plug#begin()
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
-Plug 'ycm-core/YouCompleteMe', {'do': './install.py --all' }
+" Plug 'ycm-core/YouCompleteMe', {'do': './install.py --all' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'tpope/vim-commentary'
 Plug 'vim-autoformat/vim-autoformat'
@@ -22,7 +23,7 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-telescope/telescope-media-files.nvim'
 
 Plug 'tmhedberg/SimpylFold'
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
 
 Plug 'searleser97/cpbooster.vim'
 Plug 'dmdque/solidity.vim'
@@ -162,7 +163,7 @@ let g:formatters_c = ['custom_astyle']
 let g:formatdef_custom_black = '"black -l 79 --preview"'
 let g:formatters_py = ['custom_black']
 
-nmap <Tab> :Autoformat<CR>
+nmap <Tab> :Autoformat<CR>:call coc#refresh()<CR>
 nmap <F5> :CocDiagnostics<CR>
 
 " It's annoying otherwise
@@ -181,6 +182,31 @@ set backspace=2
 set completeopt-=preview
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_global_ycm_extra_conf = '~/.config/nvim/ycm_extra_conf.py'
+
+set pumheight=20
+
+inoremap <silent><expr> <TAB>
+			\ coc#pum#visible() ? coc#pum#next(1) :
+			\ CheckBackspace() ? "\<Tab>" :
+			\ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+function! CheckBackspace() abort
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
+" Disable Copilot for large files
+autocmd BufReadPre *
+			\ let f=getfsize(expand("<afile>"))
+			\ | if f > 100000 || f == -2
+			\ | let b:copilot_enabled = v:false
+			\ | endif
+
+imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true
 
 " Add lua specific settings
 " They are available in lua/init.lua
