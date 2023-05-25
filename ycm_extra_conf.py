@@ -118,7 +118,7 @@ def FlagsFromInclude(root):
     try:
         include_path = FindNearest(root, 'include')
         flags = BASE_FLAGS
-        for dirroot, dirnames, filenames in os.walk(include_path):
+        for dirroot, dirnames, _ in os.walk(include_path):
             for dir_path in dirnames:
                 real_path = os.path.join(dirroot, dir_path)
                 flags = flags + ["-I" + real_path]

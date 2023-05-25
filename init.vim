@@ -1,4 +1,5 @@
 set termguicolors
+let g:python_host_prog="/opt/homebrew/bin/python"
 
 call plug#begin()
 Plug 'nvim-lualine/lualine.nvim'
@@ -163,8 +164,7 @@ let g:formatters_c = ['custom_astyle']
 let g:formatdef_custom_black = '"black -l 79 --preview"'
 let g:formatters_py = ['custom_black']
 
-nmap <Tab> :Autoformat<CR>:call coc#refresh()<CR>
-nmap <F5> :CocDiagnostics<CR>
+nmap <Tab> :Autoformat<CR>
 
 " It's annoying otherwise
 source ~/.config/nvim/cyrilic.vim
@@ -197,6 +197,25 @@ function! CheckBackspace() abort
 endfunction
 
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
+" Default coc.nvim code inspection settings
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+function! ShowDocumentation()
+	if CocAction('hasProvider', 'hover')
+		call CocActionAsync('doHover')
+	else
+		call feedkeys('K', 'in')
+	endif
+endfunction
 
 " Disable Copilot for large files
 autocmd BufReadPre *

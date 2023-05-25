@@ -8,5 +8,6 @@
 	"diagnostic.enableHighlightLineNumber": true,
 	"signature.enable": true,
 	"clangd.fallbackFlags": [ "-std=c++17" ],
-	"python.pythonPath": "~/.config/nvim/coc-pyright-run-py"
+	"python.pythonPath": "~/.config/nvim/coc-pyright-run-py",
+	"diagnostic.checkCurrentLine": true
 }

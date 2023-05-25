@@ -22,11 +22,9 @@ require("telescope").setup({
 		file_sorter = require("telescope.sorters").get_fzy_sorter,
 		prompt_prefix = " >",
 		color_devicons = true,
-
 		file_previewer = require("telescope.previewers").vim_buffer_cat.new,
 		grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
 		qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
-
 		layout_strategy = "horizontal",
 		layout_config = {
 			horizontal = {
@@ -35,6 +33,12 @@ require("telescope").setup({
 			},
 			vertical = {
 				preview_height = 0.5,
+			},
+		},
+		mappings = {
+			i = {
+				["<C-j>"] = require("telescope.actions").move_selection_next,
+				["<C-k>"] = require("telescope.actions").move_selection_previous,
 			},
 		},
 	},
