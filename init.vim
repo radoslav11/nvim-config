@@ -1,5 +1,7 @@
 set termguicolors
 let g:python_host_prog="/opt/homebrew/bin/python"
+let g:python3_host_prog="/opt/homebrew/bin/python"
+set shell=/bin/zsh
 
 call plug#begin()
 Plug 'nvim-lualine/lualine.nvim'
@@ -24,11 +26,14 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-telescope/telescope-media-files.nvim'
 
 Plug 'tmhedberg/SimpylFold'
-" Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'
 
 Plug 'searleser97/cpbooster.vim'
 Plug 'dmdque/solidity.vim'
 Plug 'morhetz/gruvbox'
+Plug 'https://github.com/tpope/vim-fugitive'
+
+" Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 set background=dark
@@ -54,6 +59,12 @@ let c_no_curly_error=1
 let g:gruvbox_invert_selection=0
 let g:gruvbox_contrast_dark='hard'
 colorscheme gruvbox
+
+" Don't save to register when "x" is pressed
+nnoremap x "_x
+nnoremap X "_X
+vnoremap x "_x
+vnoremap X "_X
 
 " Iterm2 help is annoying
 nmap <F1> <nop>
@@ -99,8 +110,8 @@ tmap <C-`> <C-\><C-N>:NvimTreeToggle<CR>
 
 set clipboard=unnamed
 
-autocmd FileType c       setlocal makeprg=gcc-13\ '%'\ -o\ '%:r'\ -std=gnu11
-autocmd FileType cpp     setlocal makeprg=g++-13\ '%'\ -o\ '%:r'\ -std=c++17\ -O3
+autocmd FileType c       setlocal makeprg=gcc\ '%'\ -o\ '%:r'\ -std=gnu11
+autocmd FileType cpp     setlocal makeprg=g++\ '%'\ -o\ '%:r'\ -std=c++17\ -O3
 autocmd FileType haskell setlocal makeprg=ghc\ --make\ '%'
 autocmd FileType java    setlocal makeprg=javac\ '%'
 autocmd FileType tex     setlocal makeprg=xelatex\ -interaction\ nonstopmode\ -halt-on-error\ '%'
@@ -152,14 +163,26 @@ imap <F10> <ESC>:w<CR>:call ExecuteFile()<CR>
 autocmd FileType python     map <F9> <ESC>:w<CR>:call ExecuteFile()<CR>
 autocmd FileType python    imap <F9> <ESC>:w<CR>:call ExecuteFile()<CR>
 
-" Formatting
-autocmd FileType python        setlocal expandtab
+" Formatting tab
+setlocal expandtab
 
-let g:formatdef_custom_astyle = '"astyle --keep-one-line-blocks --style=google"'
-let g:formatters_java = ['custom_astyle']
-let g:formatters_cpp = ['custom_astyle']
-let g:formatters_cs = ['custom_astyle']
-let g:formatters_c = ['custom_astyle']
+let clang_format_style = "\'{
+	\BasedOnStyle: Google, 
+	\TabWidth: 4,
+	\IndentWidth: 4, 
+	\AlignAfterOpenBracket: BlockIndent, 
+	\SpaceBeforeParens: Never,
+	\IncludeBlocks: Preserve,
+	\SpaceBeforeCaseColon: false,
+	\SpaceBeforeRangeBasedForLoopColon: false,
+	\UseTab: Always,
+	\AlwaysBreakTemplateDeclarations: BTDS_MultiLine
+	\}'"
+let g:formatdef_custom_clike = '"clang-format --style=' . clang_format_style . '"'
+let g:formatters_java = ['custom_clike']
+let g:formatters_cpp = ['custom_clike']
+let g:formatters_cs = ['custom_clike']
+let g:formatters_c = ['custom_clike']
 
 let g:formatdef_custom_black = '"black -l 79 --preview"'
 let g:formatters_py = ['custom_black']

@@ -1,13 +1,22 @@
 {
 	"suggest.enablePreselect": false,
+	"inlayHint.enable": false,
 	"coc.preferences.formatOnType":true,
 	"suggest.noselect": true,
+	"signature.enable": false,
 	"diagnostic.errorSign": "✘",
 	"diagnostic.infoSign": "ℹ",
 	"diagnostic.hintSign": "➤",
 	"diagnostic.enableHighlightLineNumber": true,
-	"signature.enable": true,
 	"clangd.fallbackFlags": [ "-std=c++17" ],
 	"python.pythonPath": "~/.config/nvim/coc-pyright-run-py",
-	"diagnostic.checkCurrentLine": true
+	"python.analysis.typeCheckingMode": "basic",
+	"python.analysis.diagnosticMode": "workspace",	
+	"python.analysis.useLibraryCodeForTypes": true,
+	"python.analysis.diagnosticSeverityOverrides": {
+		"reportMissingImports": "none",
+		"reportOptionalMemberAccess": "none",
+		"reportOptionalSubscript": "none",
+		"reportPrivateImportUsage": "none"
+	}
 }
