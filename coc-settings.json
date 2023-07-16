@@ -11,7 +11,7 @@
 	"clangd.fallbackFlags": [ "-std=c++17" ],
 	"python.pythonPath": "~/.config/nvim/coc-pyright-run-py",
 	"python.analysis.typeCheckingMode": "basic",
-	"python.analysis.diagnosticMode": "workspace",	
+	"python.analysis.diagnosticMode": "workspace",
 	"python.analysis.useLibraryCodeForTypes": true,
 	"python.analysis.diagnosticSeverityOverrides": {
 		"reportMissingImports": "none",

@@ -31,9 +31,10 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'searleser97/cpbooster.vim'
 Plug 'dmdque/solidity.vim'
 Plug 'morhetz/gruvbox'
+Plug 'sainnhe/gruvbox-material'
 Plug 'https://github.com/tpope/vim-fugitive'
 
-" Plug 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 set background=dark
@@ -55,10 +56,19 @@ let g:AutoPairsFlyMode=0
 
 let c_no_curly_error=1
 
-" Better visual mode selection
-let g:gruvbox_invert_selection=0
-let g:gruvbox_contrast_dark='hard'
-colorscheme gruvbox
+" Better visual mode selection for normal gruvbox
+" let g:gruvbox_invert_selection=0
+" let g:gruvbox_contrast_dark='hard'
+" colorscheme gruvbox
+
+" gruvbox-material is slightly nicer
+let g:gruvbox_material_palette = 'material'
+let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_disable_italic_comment = 1
+let g:gruvbox_material_diagnostic_text_highlight = 0
+let g:gruvbox_material_diagnostic_line_highlight = 0
+let g:gruvbox_material_diagnostic_virtual_text = 'colored'
+colorscheme gruvbox-material
 
 " Don't save to register when "x" is pressed
 nnoremap x "_x
@@ -88,10 +98,11 @@ imap <C-Left> <ESC>:tabprevious<CR>
 imap <C-Right> <ESC>:tabnext<CR>
 
 " Window bindings
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-H> <C-W><C-H>
+" Still the same, but I now use the tmux plugin
+" nnoremap <C-L> <C-W><C-L>
+" nnoremap <C-K> <C-W><C-K>
+" nnoremap <C-J> <C-W><C-J>
+" nnoremap <C-H> <C-W><C-H>
 
 tmap <C-ESC> <C-\><C-N>
 
