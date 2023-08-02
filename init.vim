@@ -106,7 +106,8 @@ imap <C-Right> <ESC>:tabnext<CR>
 
 tmap <C-ESC> <C-\><C-N>
 
-autocmd FileType c,cpp,java setlocal commentstring=//\ %s
+autocmd FileType c,cpp,java,noir setlocal commentstring=//\ %s
+
 nmap <C-/> :Commentary<CR>
 imap <C-/> <ESC>:Commentary<CR>
 vmap <C-/> :Commentary<CR>
@@ -134,33 +135,33 @@ command! -nargs=* VertTerm vsplit | te <args>
 " From cuklev
 autocmd QuickFixCmdPost [^l]* nested cwindow
 function! ExecuteIfNoErrors()
-	if len(getqflist()) == 0
-		call ExecuteFile()
-	endif
+    if len(getqflist()) == 0
+        call ExecuteFile()
+    endif
 endfunction
 
 function! ExecuteFile()
-	if &filetype == "sh"
-		write
-		VertTerm bash "%"
-	elseif &filetype == "java"
-		write
-		VertTerm java "%"
-	elseif &filetype == "python"
-		write
-		VertTerm python3 "%"
-	elseif &filetype == "javascript"
-		write
-		VertTerm node "%"
-	elseif &filetype == "c" || &filetype == "cpp" || &filetype == "haskell"
-		VertTerm "%:p:r"
-	elseif &filetype == "tex"
-		" Make more general, so that it doesn't require MacOS
-		:!open '%:r'.pdf
-	elseif &filetype == "pdf" || &filetype == "png" || &filetype == "jpg" || &filetype == "jpeg"
-		" Make more general, so that it doesn't require MacOS
-		:!open "%"
-	endif
+    if &filetype == "sh"
+        write
+        VertTerm bash "%"
+    elseif &filetype == "java"
+        write
+        VertTerm java "%"
+    elseif &filetype == "python"
+        write
+        VertTerm python3 "%"
+    elseif &filetype == "javascript"
+        write
+        VertTerm node "%"
+    elseif &filetype == "c" || &filetype == "cpp" || &filetype == "haskell"
+        VertTerm "%:p:r"
+    elseif &filetype == "tex"
+        " Make more general, so that it doesn't require MacOS
+        :!open '%:r'.pdf
+    elseif &filetype == "pdf" || &filetype == "png" || &filetype == "jpg" || &filetype == "jpeg"
+        " Make more general, so that it doesn't require MacOS
+        :!open "%"
+    endif
 endfunction
 
 " Compile & Run
@@ -177,26 +178,27 @@ autocmd FileType python    imap <F9> <ESC>:w<CR>:call ExecuteFile()<CR>
 " Formatting tab
 setlocal expandtab
 
+let g:autoformat_autoindent = 0
 let clang_format_style = "\'{
-	\BasedOnStyle: Google, 
-	\TabWidth: 4,
-	\IndentWidth: 4, 
-	\AlignAfterOpenBracket: BlockIndent, 
-	\SpaceBeforeParens: Never,
-	\IncludeBlocks: Preserve,
-	\SpaceBeforeCaseColon: false,
-	\SpaceBeforeRangeBasedForLoopColon: false,
-	\UseTab: Always,
-	\AlwaysBreakTemplateDeclarations: BTDS_MultiLine
-	\}'"
+            \BasedOnStyle: Google,
+            \TabWidth: 4,
+            \IndentWidth: 4,
+            \AlignAfterOpenBracket: BlockIndent,
+            \SpaceBeforeParens: Never,
+            \IncludeBlocks: Preserve,
+            \SpaceBeforeCaseColon: false,
+            \SpaceBeforeRangeBasedForLoopColon: false,
+            \UseTab: Always,
+            \AlwaysBreakTemplateDeclarations: BTDS_MultiLine
+            \}'"
 let g:formatdef_custom_clike = '"clang-format --style=' . clang_format_style . '"'
 let g:formatters_java = ['custom_clike']
 let g:formatters_cpp = ['custom_clike']
 let g:formatters_cs = ['custom_clike']
 let g:formatters_c = ['custom_clike']
 
-let g:formatdef_custom_black = '"black -l 79 --preview"'
-let g:formatters_py = ['custom_black']
+let g:formatdef_custom_black = '"black -l 79 --preview -q ".(&textwidth ? "-l".&textwidth : "")." -"'
+let g:formatters_python = ['custom_black']
 
 nmap <Tab> :Autoformat<CR>
 
@@ -217,17 +219,17 @@ set completeopt-=preview
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_global_ycm_extra_conf = '~/.config/nvim/ycm_extra_conf.py'
 
-set pumheight=20
+set pumheight=12
 
 inoremap <silent><expr> <TAB>
-			\ coc#pum#visible() ? coc#pum#next(1) :
-			\ CheckBackspace() ? "\<Tab>" :
-			\ coc#refresh()
+            \ coc#pum#visible() ? coc#pum#next(1) :
+            \ CheckBackspace() ? "\<Tab>" :
+            \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 function! CheckBackspace() abort
-	let col = col('.') - 1
-	return !col || getline('.')[col - 1]  =~# '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
@@ -244,19 +246,19 @@ nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 function! ShowDocumentation()
-	if CocAction('hasProvider', 'hover')
-		call CocActionAsync('doHover')
-	else
-		call feedkeys('K', 'in')
-	endif
+    if CocAction('hasProvider', 'hover')
+        call CocActionAsync('doHover')
+    else
+        call feedkeys('K', 'in')
+    endif
 endfunction
 
 " Disable Copilot for large files
 autocmd BufReadPre *
-			\ let f=getfsize(expand("<afile>"))
-			\ | if f > 100000 || f == -2
-			\ | let b:copilot_enabled = v:false
-			\ | endif
+            \ let f=getfsize(expand("<afile>"))
+            \ | if f > 100000 || f == -2
+            \ | let b:copilot_enabled = v:false
+            \ | endif
 
 imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
 let g:copilot_no_tab_map = v:true
