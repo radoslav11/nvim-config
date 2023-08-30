@@ -183,14 +183,16 @@ let clang_format_style = "\'{
             \BasedOnStyle: Google,
             \TabWidth: 4,
             \IndentWidth: 4,
+            \AccessModifierOffset: -2,
             \AlignAfterOpenBracket: BlockIndent,
             \SpaceBeforeParens: Never,
             \IncludeBlocks: Preserve,
             \SpaceBeforeCaseColon: false,
             \SpaceBeforeRangeBasedForLoopColon: false,
             \UseTab: Always,
-            \AlwaysBreakTemplateDeclarations: BTDS_MultiLine
+            \AlwaysBreakTemplateDeclarations: MultiLine
             \}'"
+
 let g:formatdef_custom_clike = '"clang-format --style=' . clang_format_style . '"'
 let g:formatters_java = ['custom_clike']
 let g:formatters_cpp = ['custom_clike']
