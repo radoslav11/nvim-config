@@ -3,6 +3,9 @@ let g:python_host_prog="/opt/homebrew/bin/python"
 let g:python3_host_prog="/opt/homebrew/bin/python"
 set shell=/bin/zsh
 
+" Enable bits/stdc++.h for C++
+let $CPLUS_INCLUDE_PATH .= expand("~/Programming/Algorithms/Config/include")
+
 call plug#begin()
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
@@ -26,13 +29,16 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-telescope/telescope-media-files.nvim'
 
 Plug 'tmhedberg/SimpylFold'
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
 
 Plug 'searleser97/cpbooster.vim'
 Plug 'dmdque/solidity.vim'
-Plug 'morhetz/gruvbox'
+
+" Plug 'morhetz/gruvbox'
+Plug 'ellisonleao/gruvbox.nvim'
 Plug 'sainnhe/gruvbox-material'
-Plug 'https://github.com/tpope/vim-fugitive'
+
+Plug 'tpope/vim-fugitive'
 
 Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
@@ -53,22 +59,26 @@ set whichwrap+=<,>,[,]
 
 " Always put closing brackets
 let g:AutoPairsFlyMode=0
-
 let c_no_curly_error=1
 
+" morhetz/gruvbox
 " Better visual mode selection for normal gruvbox
 " let g:gruvbox_invert_selection=0
 " let g:gruvbox_contrast_dark='hard'
 " colorscheme gruvbox
 
 " gruvbox-material is slightly nicer
-let g:gruvbox_material_palette = 'material'
+let g:gruvbox_material_palette = 'mix'
 let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_disable_italic_comment = 1
 let g:gruvbox_material_diagnostic_text_highlight = 0
 let g:gruvbox_material_diagnostic_line_highlight = 0
 let g:gruvbox_material_diagnostic_virtual_text = 'colored'
 colorscheme gruvbox-material
+
+" gruvbox.nvim works better with treesitter
+" Other settings are in init.lua
+" colorscheme gruvbox
 
 " Don't save to register when "x" is pressed
 nnoremap x "_x
@@ -190,6 +200,7 @@ let clang_format_style = "\'{
             \SpaceBeforeCaseColon: false,
             \SpaceBeforeRangeBasedForLoopColon: false,
             \UseTab: Always,
+            \SpaceAfterTemplateKeyword: false,
             \AlwaysBreakTemplateDeclarations: MultiLine
             \}'"
 
@@ -264,6 +275,12 @@ autocmd BufReadPre *
 
 imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
 let g:copilot_no_tab_map = v:true
+
+" Autopairs stuff
+let b:coc_pairs_disabled = ['<', '`']
+
+" Disable auto commenting on new line
+autocmd BufNewFile,BufRead * setlocal formatoptions-=cro
 
 " Add lua specific settings
 " They are available in lua/init.lua
