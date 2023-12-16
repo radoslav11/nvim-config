@@ -19,6 +19,7 @@ Plug 'kassio/neoterm'
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate' }
+Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 
 Plug 'nvim-lua/plenary.nvim'
@@ -28,17 +29,19 @@ Plug 'nvim-telescope/telescope-file-browser.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-telescope/telescope-media-files.nvim'
 
-Plug 'tmhedberg/SimpylFold'
 " Plug 'jiangmiao/auto-pairs'
 
 Plug 'searleser97/cpbooster.vim'
 Plug 'dmdque/solidity.vim'
 
-" Plug 'morhetz/gruvbox'
+Plug 'morhetz/gruvbox'
 Plug 'ellisonleao/gruvbox.nvim'
 Plug 'sainnhe/gruvbox-material'
 
 Plug 'tpope/vim-fugitive'
+
+Plug 'rust-lang/rust.vim'
+Plug 'czheo/mojo.vim'
 
 Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
@@ -118,6 +121,9 @@ tmap <C-ESC> <C-\><C-N>
 
 autocmd FileType c,cpp,java,noir setlocal commentstring=//\ %s
 
+" Spell check for some languages
+autocmd BufEnter,BufNewFile *.{txt,md,html,tex} setlocal spell spelllang=en_us
+
 nmap <C-/> :Commentary<CR>
 imap <C-/> <ESC>:Commentary<CR>
 vmap <C-/> :Commentary<CR>
@@ -185,6 +191,9 @@ imap <F10> <ESC>:w<CR>:call ExecuteFile()<CR>
 autocmd FileType python     map <F9> <ESC>:w<CR>:call ExecuteFile()<CR>
 autocmd FileType python    imap <F9> <ESC>:w<CR>:call ExecuteFile()<CR>
 
+" Folding
+autocmd FileType python     set foldmethod=indent
+
 " Formatting tab
 setlocal expandtab
 
@@ -199,7 +208,7 @@ let clang_format_style = "\'{
             \IncludeBlocks: Preserve,
             \SpaceBeforeCaseColon: false,
             \SpaceBeforeRangeBasedForLoopColon: false,
-            \UseTab: Always,
+            \UseTab: Never,
             \SpaceAfterTemplateKeyword: false,
             \AlwaysBreakTemplateDeclarations: MultiLine
             \}'"
@@ -214,6 +223,9 @@ let g:formatdef_custom_black = '"black -l 79 --preview -q ".(&textwidth ? "-l".&
 let g:formatters_python = ['custom_black']
 
 nmap <Tab> :Autoformat<CR>
+
+" Rust formatting using default formatter
+autocmd FileType rust nmap <Tab> :RustFmt<CR>
 
 " It's annoying otherwise
 source ~/.config/nvim/cyrilic.vim
@@ -258,6 +270,9 @@ nnoremap <silent> K :call ShowDocumentation()<CR>
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
+let g:coc_snippet_next = "<c-k>"
+let g:coc_snippet_prev = "<c-l>"
+
 function! ShowDocumentation()
     if CocAction('hasProvider', 'hover')
         call CocActionAsync('doHover')
@@ -265,6 +280,12 @@ function! ShowDocumentation()
         call feedkeys('K', 'in')
     endif
 endfunction
+
+map <F3> <ESC>:CocRestart <CR>
+imap <F3> <ESC>:CocRestart <CR>
+
+" Autopairs stuff
+let b:coc_pairs_disabled = ['<', '`']
 
 " Disable Copilot for large files
 autocmd BufReadPre *
@@ -276,11 +297,16 @@ autocmd BufReadPre *
 imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
 let g:copilot_no_tab_map = v:true
 
-" Autopairs stuff
-let b:coc_pairs_disabled = ['<', '`']
-
 " Disable auto commenting on new line
 autocmd BufNewFile,BufRead * setlocal formatoptions-=cro
+
+" Cursor line
+highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
+set cursorline
+
+" Spellcheck
+set spelllang=en_us
+set spell
 
 " Add lua specific settings
 " They are available in lua/init.lua
