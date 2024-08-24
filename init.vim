@@ -3,8 +3,8 @@ let g:python_host_prog="/opt/homebrew/bin/python"
 let g:python3_host_prog="/opt/homebrew/bin/python"
 set shell=/bin/zsh
 
-" Enable bits/stdc++.h for C++
-let $CPLUS_INCLUDE_PATH .= expand("~/Programming/Algorithms/Config/include")
+" Additional includes
+let $CPLUS_INCLUDE_PATH .= ":" . expand("~/.config/nvim/langs_symlinks/cpp")
 
 call plug#begin()
 Plug 'nvim-lualine/lualine.nvim'
@@ -44,6 +44,8 @@ Plug 'rust-lang/rust.vim'
 Plug 'czheo/mojo.vim'
 
 Plug 'christoomey/vim-tmux-navigator'
+
+Plug 'madox2/vim-ai'
 call plug#end()
 
 set background=dark
@@ -101,6 +103,13 @@ nnoremap <leader>fg :Telescope live_grep<cr>
 nnoremap <leader>fb :Telescope buffers<cr>
 nnoremap <leader>fh :Telescope help_tags<cr>
 
+let g:vim_ai_roles_config_file = expand("~/.config/nvim/ai/roles.ini")
+" More leader operations, but for AI
+xnoremap <leader>c :AIChat<CR>
+nnoremap <leader>c :AIChat<CR>
+xnoremap <leader>e :AIEdit
+nnoremap <leader>e :AIEdit
+
 map <F2> <ESC>:w <CR>
 imap <F2> <ESC>:w <CR>
 map <C-T> :tabnew <CR>
@@ -136,13 +145,13 @@ imap <C-`> <ESC>:NvimTreeToggle<CR>
 nmap <C-`> <ESC>:NvimTreeToggle<CR>
 tmap <C-`> <C-\><C-N>:NvimTreeToggle<CR>
 
-set clipboard=unnamed
-
 autocmd FileType c       setlocal makeprg=gcc\ '%'\ -o\ '%:r'\ -std=gnu11
-autocmd FileType cpp     setlocal makeprg=g++\ '%'\ -o\ '%:r'\ -std=c++17\ -O3
+autocmd FileType cpp     setlocal makeprg=g++\ '%'\ -o\ '%:r'\ -std=c++17\ -O3\ -fsanitize=undefined,address
 autocmd FileType haskell setlocal makeprg=ghc\ --make\ '%'
 autocmd FileType java    setlocal makeprg=javac\ '%'
 autocmd FileType tex     setlocal makeprg=xelatex\ -interaction\ nonstopmode\ -halt-on-error\ '%'
+
+set clipboard=unnamedplus
 
 " Terminal commands
 set splitright
@@ -195,22 +204,27 @@ autocmd FileType python    imap <F9> <ESC>:w<CR>:call ExecuteFile()<CR>
 autocmd FileType python     set foldmethod=indent
 
 " Formatting tab
-setlocal expandtab
+set expandtab
 
 let g:autoformat_autoindent = 0
 let clang_format_style = "\'{
             \BasedOnStyle: Google,
             \TabWidth: 4,
             \IndentWidth: 4,
+            \InsertBraces: true,
             \AccessModifierOffset: -2,
             \AlignAfterOpenBracket: BlockIndent,
+            \AllowShortLoopsOnASingleLine: false,
             \SpaceBeforeParens: Never,
             \IncludeBlocks: Preserve,
             \SpaceBeforeCaseColon: false,
             \SpaceBeforeRangeBasedForLoopColon: false,
             \UseTab: Never,
+            \PointerAlignment: Right,
+            \ReferenceAlignment: Right,
+            \DerivePointerAlignment: false,
             \SpaceAfterTemplateKeyword: false,
-            \AlwaysBreakTemplateDeclarations: MultiLine
+            \AlwaysBreakTemplateDeclarations: Yes
             \}'"
 
 let g:formatdef_custom_clike = '"clang-format --style=' . clang_format_style . '"'
