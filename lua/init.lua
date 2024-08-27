@@ -1,6 +1,8 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.opt.fillchars = { eob = " "}
+vim.opt.splitkeep = "screen"
+vim.opt.laststatus = 3
 
 require("toggleterm").setup()
 
@@ -118,13 +120,11 @@ require("nvim-treesitter.configs").setup({
 require("treesitter-context").setup()
 
 require("avante").setup({
-  ---@alias Provider "openai" | "claude" | "azure"  | "copilot" | [string]
   provider = "copilot",
   mappings = {
     ask = "<leader>aa",
-    edit = "<leader>ae",
-    refresh = "<leader>ar",
-    --- @class AvanteConflictMappings
+    -- edit = "<leader>ar",
+    refresh = "<leader>rr",
     diff = {
       ours = "co",
       theirs = "ct",
@@ -146,7 +146,7 @@ require("avante").setup({
       hint = "<leader>ah",
     },
   },
-  hints = { enabled = true },
+  hints = { enabled = false },
   windows = {
     wrap = true, -- similar to vim.o.wrap
     width = 30, -- default % based on available width
@@ -156,17 +156,14 @@ require("avante").setup({
     },
   },
   highlights = {
-    ---@type AvanteConflictHighlights
     diff = {
       current = "DiffText",
       incoming = "DiffAdd",
     },
   },
-  --- @class AvanteConflictUserConfig
   diff = {
     debug = false,
     autojump = true,
-    ---@type string | fun(): any
     list_opener = "copen",
   },
 })

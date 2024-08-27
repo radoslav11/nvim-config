@@ -45,14 +45,11 @@ Plug 'czheo/mojo.vim'
 
 Plug 'christoomey/vim-tmux-navigator'
 
-Plug 'madox2/vim-ai'
-
 " Gromo
 Plug 'yetone/avante.nvim'
 Plug 'stevearc/dressing.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'MunifTanjim/nui.nvim'
-
 call plug#end()
 
 set background=dark
@@ -316,6 +313,7 @@ autocmd BufNewFile,BufRead * setlocal formatoptions-=cro
 
 " Cursor line
 highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
+highlight DiffText guibg=#003f66
 set cursorline
 
 " Spellcheck
