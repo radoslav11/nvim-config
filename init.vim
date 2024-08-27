@@ -46,6 +46,13 @@ Plug 'czheo/mojo.vim'
 Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'madox2/vim-ai'
+
+" Gromo
+Plug 'yetone/avante.nvim'
+Plug 'stevearc/dressing.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'MunifTanjim/nui.nvim'
+
 call plug#end()
 
 set background=dark
@@ -102,13 +109,6 @@ nnoremap <leader>mm :Telescope media_files<cr>
 nnoremap <leader>fg :Telescope live_grep<cr>
 nnoremap <leader>fb :Telescope buffers<cr>
 nnoremap <leader>fh :Telescope help_tags<cr>
-
-let g:vim_ai_roles_config_file = expand("~/.config/nvim/ai/roles.ini")
-" More leader operations, but for AI
-xnoremap <leader>c :AIChat<CR>
-nnoremap <leader>c :AIChat<CR>
-xnoremap <leader>e :AIEdit
-nnoremap <leader>e :AIEdit
 
 map <F2> <ESC>:w <CR>
 imap <F2> <ESC>:w <CR>

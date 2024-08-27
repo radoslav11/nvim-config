@@ -3,6 +3,7 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.fillchars = { eob = " "}
 
 require("toggleterm").setup()
+
 require("nvim-tree").setup({
     sort_by = "case_sensitive",
     view = {
@@ -12,6 +13,7 @@ require("nvim-tree").setup({
         group_empty = true,
     },
 })
+
 require("telescope").setup({
     extensions = {
         media_files = {
@@ -45,14 +47,15 @@ require("telescope").setup({
 })
 
 require("telescope").load_extension("media_files")
-require('lualine').setup({
+
+require("lualine").setup({
     options = {
-        theme = 'gruvbox-material',
+        theme = "gruvbox-material",
         icons_enabled = true,
-        section_separators = {left='', right=''},
-        component_separators = {left='', right=''},
-        -- component_separators = { left = '', right = ''},
-        -- section_separators = { left = '', right = ''},
+        section_separators = {left="", right=""},
+        component_separators = {left="", right=""},
+        -- component_separators = { left = "", right = ""},
+        -- section_separators = { left = "", right = ""},
         disabled_filetypes = {
             statusline = {},
             winbar = {},
@@ -67,18 +70,18 @@ require('lualine').setup({
         }
     },
     sections = {
-        lualine_a = {'mode'},
-        lualine_b = {'branch', 'diff', 'diagnostics'},
-        lualine_c = {'filename'},
-        lualine_x = {'encoding', 'filetype'},
-        lualine_y = {'progress'},
-        lualine_z = {'location'}
+        lualine_a = {"mode"},
+        lualine_b = {"branch", "diff", "diagnostics"},
+        lualine_c = {"filename"},
+        lualine_x = {"encoding", "filetype"},
+        lualine_y = {"progress"},
+        lualine_z = {"location"}
     },
     inactive_sections = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = {'filename'},
-        lualine_x = {'location'},
+        lualine_c = {"filename"},
+        lualine_x = {"location"},
         lualine_y = {},
         lualine_z = {}
     },
@@ -87,8 +90,10 @@ require('lualine').setup({
     inactive_winbar = {},
     extensions = {}
 })
+
 require("bufferline").setup()
-require"nvim-treesitter.configs".setup{
+
+require("nvim-treesitter.configs").setup({
     ensure_installed = {
         "c", "cpp", "python", "lua", "typescript", "javascript", "vim", "vimdoc", "query", "haskell", "cuda", "bash", "java"
     },
@@ -108,5 +113,60 @@ require"nvim-treesitter.configs".setup{
 
         additional_vim_regex_highlighting = false,
     },
-}
+})
+
 require("treesitter-context").setup()
+
+require("avante").setup({
+  ---@alias Provider "openai" | "claude" | "azure"  | "copilot" | [string]
+  provider = "copilot",
+  mappings = {
+    ask = "<leader>aa",
+    edit = "<leader>ae",
+    refresh = "<leader>ar",
+    --- @class AvanteConflictMappings
+    diff = {
+      ours = "co",
+      theirs = "ct",
+      none = "c0",
+      both = "cb",
+      next = "]x",
+      prev = "[x",
+    },
+    jump = {
+      next = "]]",
+      prev = "[[",
+    },
+    submit = {
+      normal = "<CR>",
+      insert = "<C-s>",
+    },
+    toggle = {
+      debug = "<leader>ad",
+      hint = "<leader>ah",
+    },
+  },
+  hints = { enabled = true },
+  windows = {
+    wrap = true, -- similar to vim.o.wrap
+    width = 30, -- default % based on available width
+    sidebar_header = {
+      align = "center", -- left, center, right for title
+      rounded = true,
+    },
+  },
+  highlights = {
+    ---@type AvanteConflictHighlights
+    diff = {
+      current = "DiffText",
+      incoming = "DiffAdd",
+    },
+  },
+  --- @class AvanteConflictUserConfig
+  diff = {
+    debug = false,
+    autojump = true,
+    ---@type string | fun(): any
+    list_opener = "copen",
+  },
+})
