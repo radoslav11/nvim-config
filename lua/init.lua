@@ -117,33 +117,48 @@ require("nvim-treesitter.configs").setup({
     },
 })
 
-require("treesitter-context").setup()
+require("cmp").setup({})
+require("treesitter-context").setup({})
+require("render-markdown").setup({})
 
 require("avante").setup({
-  provider = "copilot",
+  provider = "claude",
+  -- mode = "legacy",
+  mode = "agentic",
+
+  -- provider = "deepseek",
+  -- vendors = {
+  --   deepseek = {
+  --     __inherited_from = "openai",
+  --     api_key_name = "",
+  --     endpoint = "http://127.0.0.1:1234/v1",
+  --     model = "deepseek-coder-v2-lite-instruct-mlx",
+  --   },
+  -- },
+
+  providers = {
+      claude = {
+        endpoint = "https://api.anthropic.com",
+        model = "claude-sonnet-4-20250514",
+        -- model = "claude-3-7-sonnet-20250219",
+        -- model = "claude-3-5-sonnet-latest",
+        -- disable_tools = true,
+
+        extra_request_body = {
+            temperature = 0,
+            max_tokens = 8192,
+        }
+      },
+  },
+
   mappings = {
-    ask = "<leader>aa",
-    -- edit = "<leader>ar",
-    refresh = "<leader>rr",
-    diff = {
-      ours = "co",
-      theirs = "ct",
-      none = "c0",
-      both = "cb",
-      next = "]x",
-      prev = "[x",
-    },
-    jump = {
-      next = "]]",
-      prev = "[[",
-    },
-    submit = {
-      normal = "<CR>",
-      insert = "<C-s>",
-    },
-    toggle = {
-      debug = "<leader>ad",
-      hint = "<leader>ah",
+    behaviour = {
+        -- auto_suggestions = true,
+        auto_suggestions = false,
+        auto_set_highlight_group = true,
+        auto_set_keymaps = true,
+        auto_apply_diff_after_generation = false,
+        support_paste_from_clipboard = false,
     },
   },
   hints = { enabled = false },
@@ -152,7 +167,7 @@ require("avante").setup({
     width = 30, -- default % based on available width
     sidebar_header = {
       align = "center", -- left, center, right for title
-      rounded = true,
+      rounded = false,
     },
   },
   highlights = {

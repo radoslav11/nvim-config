@@ -46,10 +46,21 @@ Plug 'czheo/mojo.vim'
 Plug 'christoomey/vim-tmux-navigator'
 
 " Gromo
-Plug 'yetone/avante.nvim'
 Plug 'stevearc/dressing.nvim'
-Plug 'nvim-lua/plenary.nvim'
 Plug 'MunifTanjim/nui.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvzone/typr'
+Plug 'nvzone/volt'
+Plug 'MeanderingProgrammer/render-markdown.nvim'
+Plug 'hrsh7th/nvim-cmp'
+
+
+" Plug 'HakonHarnes/img-clip.nvim'
+
+Plug 'yetone/avante.nvim', { 'branch': 'main', 'do': ':AvanteBuild' }
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'TabbyML/vim-tabby'
 call plug#end()
 
 set background=dark
@@ -143,7 +154,7 @@ nmap <C-`> <ESC>:NvimTreeToggle<CR>
 tmap <C-`> <C-\><C-N>:NvimTreeToggle<CR>
 
 autocmd FileType c       setlocal makeprg=gcc\ '%'\ -o\ '%:r'\ -std=gnu11
-autocmd FileType cpp     setlocal makeprg=g++\ '%'\ -o\ '%:r'\ -std=c++17\ -O3\ -fsanitize=undefined,address
+autocmd FileType cpp     setlocal makeprg=g++\ '%'\ -o\ '%:r'\ -std=gnu++17\ -O3\ -fsanitize=undefined "address
 autocmd FileType haskell setlocal makeprg=ghc\ --make\ '%'
 autocmd FileType java    setlocal makeprg=javac\ '%'
 autocmd FileType tex     setlocal makeprg=xelatex\ -interaction\ nonstopmode\ -halt-on-error\ '%'
@@ -217,8 +228,8 @@ let clang_format_style = "\'{
             \SpaceBeforeCaseColon: false,
             \SpaceBeforeRangeBasedForLoopColon: false,
             \UseTab: Never,
-            \PointerAlignment: Right,
-            \ReferenceAlignment: Right,
+            \PointerAlignment: Left,
+            \ReferenceAlignment: Left,
             \DerivePointerAlignment: false,
             \SpaceAfterTemplateKeyword: false,
             \AlwaysBreakTemplateDeclarations: Yes
@@ -298,15 +309,18 @@ imap <F3> <ESC>:CocRestart <CR>
 " Autopairs stuff
 let b:coc_pairs_disabled = ['<', '`']
 
+" Try switching to Tabby
+" let g:tabby_inline_completion_keybinding_accept = '<C-J>'
+" let b:copilot_enabled = v:false
+let g:copilot_no_tab_map = v:true
+imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+
 " Disable Copilot for large files
 autocmd BufReadPre *
             \ let f=getfsize(expand("<afile>"))
             \ | if f > 100000 || f == -2
             \ | let b:copilot_enabled = v:false
             \ | endif
-
-imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
-let g:copilot_no_tab_map = v:true
 
 " Disable auto commenting on new line
 autocmd BufNewFile,BufRead * setlocal formatoptions-=cro
@@ -323,3 +337,6 @@ set spell
 " Add lua specific settings
 " They are available in lua/init.lua
 lua require('init')
+
+" Disable avante toggle in V-mode
+vunmap <Leader>aa
