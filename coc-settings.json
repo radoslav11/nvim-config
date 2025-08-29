@@ -18,5 +18,6 @@
 		"reportOptionalMemberAccess": "none",
 		"reportOptionalSubscript": "none",
 		"reportPrivateImportUsage": "none"
-	}
+	},
+    "rust-analyzer.cargo.cfgs": []
 }

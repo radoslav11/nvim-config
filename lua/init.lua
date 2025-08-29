@@ -139,8 +139,9 @@ require("avante").setup({
   providers = {
       claude = {
         endpoint = "https://api.anthropic.com",
-        model = "claude-sonnet-4-20250514",
-        -- model = "claude-3-7-sonnet-20250219",
+        -- Rate limits are not great.
+        -- model = "claude-sonnet-4-20250514",
+        model = "claude-3-7-sonnet-20250219",
         -- model = "claude-3-5-sonnet-latest",
         -- disable_tools = true,
 
