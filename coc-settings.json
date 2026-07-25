@@ -8,11 +8,18 @@
 	"diagnostic.infoSign": "ℹ",
 	"diagnostic.hintSign": "➤",
 	"diagnostic.enableHighlightLineNumber": true,
-	"clangd.fallbackFlags": [ "-std=c++17" ],
+	"clangd.fallbackFlags": [ "-std=c++20" ],
 	"python.pythonPath": "~/.config/nvim/coc-pyright-run-py",
 	"python.analysis.typeCheckingMode": "basic",
-	"python.analysis.diagnosticMode": "workspace",
+	"python.analysis.diagnosticMode": "openFilesOnly",
 	"python.analysis.useLibraryCodeForTypes": true,
+	"python.analysis.exclude": [
+		"**/node_modules",
+		"**/.venv",
+		"**/venv",
+		"**/.git",
+		"**/__pycache__"
+	],
 	"python.analysis.diagnosticSeverityOverrides": {
 		"reportMissingImports": "none",
 		"reportOptionalMemberAccess": "none",

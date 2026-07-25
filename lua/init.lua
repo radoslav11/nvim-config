@@ -3,6 +3,7 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.fillchars = { eob = " "}
 vim.opt.splitkeep = "screen"
 vim.opt.laststatus = 3
+vim.g.maplocalleader = '  '
 
 require("toggleterm").setup()
 
@@ -95,91 +96,121 @@ require("lualine").setup({
 
 require("bufferline").setup()
 
-require("nvim-treesitter.configs").setup({
-    ensure_installed = {
-        "c", "cpp", "python", "lua", "typescript", "javascript", "vim", "vimdoc", "query", "haskell", "cuda", "bash", "java"
-    },
-    sync_install = false,
-    auto_install = false,
+-- nvim-treesitter's main branch uses Neovim's native highlighting API. The
+-- former `nvim-treesitter.configs` module belongs to the frozen master branch
+-- and is incompatible with Neovim 0.12.
+require("nvim-treesitter").setup({
+    -- Put parsers compiled by the main branch before the legacy parser
+    -- binaries retained inside Vim-Plug's plugin checkout.
+    install_dir = vim.fn.stdpath("data") .. "/site",
+})
 
-    highlight = {
-        enable = true,
-        -- disable slow treesitter highlight for large files
-        disable = function(_, buf)
-            local max_filesize = 100 * 1024
-            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-            if ok and stats and stats.size > max_filesize then
-                return true
-            end
-        end,
+local treesitter_filetypes = {
+    "bash",
+    "c",
+    "cpp",
+    "css",
+    "cuda",
+    "haskell",
+    "html",
+    "java",
+    "javascript",
+    "lua",
+    "markdown",
+    "python",
+    "query",
+    "rust",
+    "typescript",
+    "vim",
+    "vimdoc",
+}
 
-        additional_vim_regex_highlighting = false,
-    },
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = treesitter_filetypes,
+    callback = function(event)
+        -- Preserve the old 100 KiB cutoff for Tree-sitter highlighting.
+        local max_filesize = 100 * 1024
+        local ok, stats = pcall(
+            vim.uv.fs_stat,
+            vim.api.nvim_buf_get_name(event.buf)
+        )
+        if ok and stats and stats.size > max_filesize then
+            return
+        end
+
+        -- A missing optional parser should not prevent the buffer from opening.
+        pcall(vim.treesitter.start, event.buf)
+    end,
 })
 
 require("cmp").setup({})
 require("treesitter-context").setup({})
 require("render-markdown").setup({})
 
-require("avante").setup({
-  provider = "claude",
-  -- mode = "legacy",
-  mode = "agentic",
+-- require("avante").setup({
+--   -- provider = "claude",
+--   provider = "openai",
+--   -- mode = "legacy",
+--   mode = "agentic",
 
-  -- provider = "deepseek",
-  -- vendors = {
-  --   deepseek = {
-  --     __inherited_from = "openai",
-  --     api_key_name = "",
-  --     endpoint = "http://127.0.0.1:1234/v1",
-  --     model = "deepseek-coder-v2-lite-instruct-mlx",
-  --   },
-  -- },
+--   -- provider = "deepseek",
+--   -- vendors = {
+--   --   deepseek = {
+--   --     __inherited_from = "openai",
+--   --     api_key_name = "",
+--   --     endpoint = "http://127.0.0.1:1234/v1",
+--   --     model = "deepseek-coder-v2-lite-instruct-mlx",
+--   --   },
+--   -- },
 
-  providers = {
-      claude = {
-        endpoint = "https://api.anthropic.com",
-        -- Rate limits are not great.
-        -- model = "claude-sonnet-4-20250514",
-        model = "claude-3-7-sonnet-20250219",
-        -- model = "claude-3-5-sonnet-latest",
-        -- disable_tools = true,
+--   providers = {
+--       claude = {
+--         endpoint = "https://api.anthropic.com",
+--         -- Rate limits are not great.
+--         -- model = "claude-sonnet-4-20250514",
+--         model = "claude-3-7-sonnet-20250219",
+--         -- model = "claude-3-5-sonnet-latest",
+--         -- disable_tools = true,
 
-        extra_request_body = {
-            temperature = 0,
-            max_tokens = 8192,
-        }
-      },
-  },
+--         extra_request_body = {
+--             temperature = 0,
+--             max_tokens = 8192,
+--         }
+--       },
+--   },
 
-  mappings = {
-    behaviour = {
-        -- auto_suggestions = true,
-        auto_suggestions = false,
-        auto_set_highlight_group = true,
-        auto_set_keymaps = true,
-        auto_apply_diff_after_generation = false,
-        support_paste_from_clipboard = false,
-    },
-  },
-  hints = { enabled = false },
-  windows = {
-    wrap = true, -- similar to vim.o.wrap
-    width = 30, -- default % based on available width
-    sidebar_header = {
-      align = "center", -- left, center, right for title
-      rounded = false,
-    },
-  },
-  highlights = {
-    diff = {
-      current = "DiffText",
-      incoming = "DiffAdd",
-    },
-  },
-  diff = {
-    debug = false,
-    autojump = true,
-    list_opener = "copen",
-  },
-})
+--   mappings = {
+--     behaviour = {
+--         -- auto_suggestions = true,
+--         auto_suggestions = false,
+--         auto_set_highlight_group = true,
+--         auto_set_keymaps = true,
+--         auto_apply_diff_after_generation = false,
+--         support_paste_from_clipboard = false,
+--     },
+--   },
+--   selection = {
+--     enabled = false,
+--   },
+--   windows = {
+--     wrap = true, -- similar to vim.o.wrap
+--     width = 30, -- default % based on available width
+--     sidebar_header = {
+--       align = "center", -- left, center, right for title
+--       rounded = false,
+--     },
+--   },
+--   highlights = {
+--     diff = {
+--       current = "DiffText",
+--       incoming = "DiffAdd",
+--     },
+--   },
+--   diff = {
+--     debug = false,
+--     autojump = true,
+--     list_opener = "copen",
+--   },
+-- })
+
+vim.g.lean_config = { mappings = true }

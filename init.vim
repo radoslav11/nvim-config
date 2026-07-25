@@ -18,7 +18,7 @@ Plug 'vim-autoformat/vim-autoformat'
 Plug 'kassio/neoterm'
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-tree/nvim-web-devicons'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate' }
+Plug 'nvim-treesitter/nvim-treesitter', {'branch': 'main', 'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 
@@ -57,10 +57,12 @@ Plug 'hrsh7th/nvim-cmp'
 
 " Plug 'HakonHarnes/img-clip.nvim'
 
-Plug 'yetone/avante.nvim', { 'branch': 'main', 'do': ':AvanteBuild' }
+" Plug 'yetone/avante.nvim', { 'branch': 'main', 'do': ':AvanteBuild' }
 
-Plug 'neovim/nvim-lspconfig'
+" Plug 'neovim/nvim-lspconfig'
 Plug 'TabbyML/vim-tabby'
+
+Plug 'Julian/lean.nvim',
 call plug#end()
 
 set background=dark
@@ -339,4 +341,4 @@ set spell
 lua require('init')
 
 " Disable avante toggle in V-mode
-vunmap <Leader>aa
+" vunmap <Leader>aa
